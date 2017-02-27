@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    {% include meta.html %}
+  </head>
+  <body>
+    <section class="page-header">
+      {% include header.html %}
+      {% include svg-icons.html %}
+    </section>
+
+
+    <section class="main-content">
+      {{ content }}
+    </section>
+
+    <footer class="site-footer">
+      {% include footer.html %}
+    </footer>
+
+    {% include scripts.html %}
+  </body>
+</html>
+
