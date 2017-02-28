@@ -28,9 +28,10 @@
 body {
   padding: 0;
   margin: 0;
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.8rem;
+  letter-spacing: .05rem;
   font-size: 16px;
-  line-height: 1.5;
   color: $body-text-color;
 }
 
@@ -54,6 +55,7 @@ a {
   border-width: 1px;
   border-radius: 0.3rem;
   transition: color 0.2s, background-color 0.2s, border-color 0.2s;
+  min-width: 6rem;
 
   &:hover {
     color: rgba(255, 255, 255, 0.8);
@@ -105,6 +107,8 @@ a {
   @include small {
     padding: 2rem 1rem;
   }
+
+  font-family: 'Roboto Mono', monospace;
 }
 
 .page-header .project-links {
