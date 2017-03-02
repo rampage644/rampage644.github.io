@@ -260,6 +260,28 @@ My best results with 256-way softmax (and MNIST) after 12 hours of training on o
 
 It' clear that first sample images are quite wiggly but situation improves with more training time. Second one look better and start resemble eights (condition label was `8` in both cases).
 
+### [01.03.17: update] results
+
+I was really not very satsified with results (is the model is wrong or my hyperparameters were bad or traiing process is flawed?) and conducted a series of experiments to see how the model is doing.
+
+I want to mention that during writing this post I realized i had wrong first layer implementations for gated block. I changed the code it to my best understanding but I'm still not sure if it was fixed.
+
+However, here i present results of my attempts to convince myself everything is ok. First series of experiment include `weight_decay` (L2 weight regularizer) and gradient L2 norm clipping to facilitate training and get rid of loss function spikes. Below are results for MNIST dataset with default settings, trained for 20 epochs (couple of hours training). First (rightmost) image corresponds to 8-way softmax, center - 16-way, rightmost - 32-way. Results are pretty good in my opinion (nice looking eights).
+
+![8 way, label 8]({{site.url}}/assets/samples_8way_2.jpg)
+![16 way, label 8]({{site.url}}/assets/samples_16way_2.jpg)
+![32 way, label 8]({{site.url}}/assets/samples_32way_2.jpg)
+
+Thing to mention is that it's harder to train more complex model (softmax with more outputs: 128, 258). Next results demonstrate this. I was experimenting with 64- and 128-way softmaxes. Right images are for 64-way softmax, left - 128. Top images have label conditioning of `8`, bottom - `1`. Training time is equal for both models - 20 epochs (again couple of hours).
+
+![64 way, label 8]({{site.url}}/assets/samples_64way_3.jpg)
+![128 way, label 8]({{site.url}}/assets/samples_128way_3.jpg)
+
+![64 way, label 1]({{site.url}}/assets/samples_64way_3_label1.jpg)
+![128 way, label 1]({{site.url}}/assets/samples_128way_3_label1.jpg)
+
+Again, more complex model produces less impressive results (if impresive at all) and requires mode time to train. However, they at least able to differentiate between eights and ones.
+
 ## References
 
 Most helpful and influential links for me were:
