@@ -19,5 +19,7 @@ links:
 gems:
   - jekyll-paginate
 
+google_analytics: UA-93025085-1
+
 #Others
 markdown: kramdown
