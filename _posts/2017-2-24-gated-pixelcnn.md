@@ -1,5 +1,6 @@
 ---
 title: Gated PixelCNN
+mathjax: True
 ---
 
 This is a follow-up post of [this one]({{ site.baseurl }}{% post_url 2017-2-22-pixelcnn %}). Here I'll continue to describe my struggle implementing Conditional Gated PixelCNN.
