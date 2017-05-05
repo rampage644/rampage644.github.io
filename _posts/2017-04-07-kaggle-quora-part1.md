@@ -2,6 +2,7 @@
 layout: post
 title: Quora questions Kaggle competition
 date: 2017-04-07 13:40 +0300
+comments: true
 ---
 
 I recently found that quora released first publicly available dataset: [question pairs][dataset]. Moreover, they also started [Kaggle competition](https://www.kaggle.com/c/quora-question-pairs) based on that dataset. In these blog posts series, I'll describe my experience getting hands-on experience participating in it.

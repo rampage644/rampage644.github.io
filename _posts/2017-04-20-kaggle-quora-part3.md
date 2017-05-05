@@ -3,6 +3,7 @@ title: Small improvements for big advancement
 date:   2017-04-20 14:20:00 +0300
 layout: post
 mathjax: true
+comments: true
 ---
 
 Kaggle competiton journey continues! After solving duplicate question challenge with simple stats-based techniques in [my first post]({{site.url}}{% post_url 2017-04-07-kaggle-quora-part1 %}) and investigating deep learning solutions in the [second]({{site.url}}{% post_url 2017-04-14-kaggle-quora-part2 %}) other approaches to improve the result were tried.

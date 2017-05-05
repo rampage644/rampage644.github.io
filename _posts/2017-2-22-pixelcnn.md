@@ -1,6 +1,7 @@
 ---
 title: PixelCNN
 mathjax: True
+comments: true
 ---
 
 Some time ago Google's Deepmind team [announced][wavenet-blog] of getting good audio generation results with their recent Wavenet model. That was particularly interesting for me and for educating and research purposes I decided to replicate their study (at least some parts of it) and implement WaveNet model by myself. In this post I'll start my journey of implementing it.

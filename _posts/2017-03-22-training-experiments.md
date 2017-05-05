@@ -2,6 +2,7 @@
 layout: post
 title: Training neural models for speech recognition and synthesis
 date: 2017-03-22 16:30 +0300
+comments: true
 ---
 
 On the wave of interesting voice related papers, one could be interested what results could be achieved with current deep neural network models for various voice tasks: namely, speech recognition (ASR), and speech (or just audio) synthesis. Ultimately, [Deepvoice][deepvoice] text-to-speech (TTS) model is very intriguing but since there is no publicly available implementation (yet) one can't perform experiments with it.
