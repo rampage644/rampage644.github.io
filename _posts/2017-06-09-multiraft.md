@@ -5,13 +5,13 @@ date: 2017-06-09 17:50 +0300
 comments: true
 ---
 
-In computer science there is a well known problem called _"consensus"_. In a nutshell, it's a task of getting all participants in a group to agree on some specific value based on the votes of each member. There are also several algorithms that aim to solve this problem, namely [Paxos][paxos-wiki], [Raft][raft-wiki], [Zab][zab], [2PC][2pc-wiki]. What is Multiraft then?
+In computer science, there is a well-known problem called _"consensus"_. In a nutshell, it's a task of getting all participants in a group to agree on some specific value based on the votes of each member. There are also several algorithms that aim to solve this problem, namely [Paxos][paxos-wiki], [Raft][raft-wiki], [Zab][zab], [2PC][2pc-wiki]. What is Multiraft then?
 
 # Consensus problem
 
-Let's first start with some problem statement and definition. Again, [wikipedia][consensus-wiki] offers quite nice introduction to what it is and some other relevant information. In short (and using my own words), consensus problem arises in a distributed settings, where multiple processes are present, they communicate over some faulty medium (while also being faulty by themselfes), and single decision should be chosen. Usually, people say that multiple processes have to agree on some value, or it could be agreement over commiting update to a database or not, or select a leader in a group, etc.
+Let's first start with some problem statement and definition. Again, [wikipedia][consensus-wiki] offers an introduction to what it is and some other relevant information. In short (and using my own words), consensus problem arises in a distributed settings, where multiple processes are present, they communicate over some faulty medium (while also being faulty by themselves), and a single decision should be chosen. Usually, people say that multiple processes have to agree on some value, or it could be agreement over committing update to a database or not or select a leader in a group, etc.
 
-One of obstacles for convinient problem solution is a (pretty high) probabilty of a failure. Communication medium could be not that reliable, messages could get lost and misinterpreted, group members could also fail or just misbehave. Another obstacle is asyncronous nature of a system: one can't be sure the speed of message delivery is constant, so if a message takes too long to arrive, it's very hard to distinguish if something bad happened or is it just late.
+One of the obstacles for convenient problem solution is a (pretty high) probability of a failure. Communication medium could be not that reliable, messages could get lost and misinterpreted, group members could also fail or just misbehave. Another obstacle is asynchronous nature of a system: one can't be sure the speed of message delivery is constant, so if a message takes too long to arrive, it's very hard to distinguish if something bad happened or is it just late.
 
 Just a side note, strict consensus problem theory covers much more and deals with more diverse constraints-limitations and assumptions combinations. I won't cover them in this post.
 
@@ -21,9 +21,9 @@ Just a side note, strict consensus problem theory covers much more and deals wit
 
 Raft is one of the algorithm to solve consensus problem that aims to be easy to understand and to implement. Before going into further details I highly recommend walking through [this nice visualization](http://thesecretlivesofdata.com/raft/).
 
-Just to reiterate, Raft solves problem by electing a leader and doing everything through it. If the leader fails, new leader is elected. If client asks non-leader about something, he is redirected to the leader. On update arrival leader disseminate the change through the group and ensures change persists. Simple, right?
+Just to reiterate, Raft solves the problem by electing a leader and doing everything through it. If the leader fails, a new leader is elected. If a client asks non-leader about something, he is redirected to the leader. On update, arrival leader disseminates the change through the group and ensures change persists. Simple, right?
 
-Those interested in technical details and more information are welcome to visit ["original" website][raft]. Also, [original paper](https://ramcloud.stanford.edu/wiki/download/attachments/11370504/raft.pdf) describes how to implement the algorithm. However, devil is in details.
+Those interested in technical details and more information are welcome to visit ["original" website][raft]. Also, [original paper](https://ramcloud.stanford.edu/wiki/download/attachments/11370504/raft.pdf) describes how to implement the algorithm. However, the devil is in details.
 
 # etcd, CockroachDB and TiDB
 
@@ -38,11 +38,11 @@ Here is visualization of differencies between original Raft and MultiRaft (image
 ![Vanilla Raft](https://www.cockroachlabs.com/uploads/2015/06/multinode2-300x216.png){:style="margin-left:50px"}
 ![MultiRaft](https://www.cockroachlabs.com/uploads/2015/06/multinode3-300x212.png){:style="float: right; margin-right:50px"}
 
-Obvious difference here is number of connections and messages that are used to make everything work. Multiraft works by effectively "multiplexing" many communcation channels into per-node ones.
+The obvious difference here is a number of connections and messages that are used to make everything work. Multiraft works by effectively "multiplexing" many communication channels into per-node ones.
 
-As per more detailed description, problems begin when number of ranges per node (replica) increases. Obviously, then node has to participate in many-many raft groups with all that possible overhead. I haven't stated that previously, but raft protocol assumes periodic heartbeat events to be exchanged within the group. What does happen if one node is a member of multpiple groups? Service protocol traffic increases. Using MultiRaft (and using only one Raft instance per Node  - `Store` in Cockroach source code terminology - rather than per `Range`) solves the problem of traffic increase. Under the hood, CockroachDB coalesces/uncoalesces heartbeats in a sinlge response/request (according to `pkg/storage/store.go`).
+As per more detailed description, problems begin when the number of ranges per node (replica) increases. Obviously, then the node has to participate in many-many raft groups with all that possible overhead. I haven't stated that previously, but raft protocol assumes periodic heartbeat events to be exchanged within the group. What does happen if one node is a member of multiple groups? Service protocol traffic increases. Using MultiRaft (and using only one Raft instance per Node  - `Store` in Cockroach source code terminology - rather than per `Range`) solves the problem of traffic increase. Under the hood, CockroachDB coalesces/uncoalesces heartbeats in a single response/request (according to `pkg/storage/store.go`).
 
-On the other hand, TiKV (as a underlying building block for TiDB) also uses MultiRaft for exactly the same purpose. Basically, its atomic unit of transfer is called `Region` (rather than `Range`). Behind the scenes, it uses multiplexion for Region-containing messages but no heartbeat coalescion. The best explanation I've found is [here](https://groups.google.com/forum/#!topic/tidb-user/uQXlBnTxsoI).
+On the other hand, TiKV (as an underlying building block for TiDB) also uses MultiRaft for exactly the same purpose. Basically, its atomic unit of transfer is called `Region` (rather than `Range`). Behind the scenes, it uses multiplexing for Region-containing messages but no heartbeat coalescing. The best explanation I've found is [here](https://groups.google.com/forum/#!topic/tidb-user/uQXlBnTxsoI).
 
 ### References:
 
