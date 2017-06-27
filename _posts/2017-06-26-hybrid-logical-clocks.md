@@ -2,7 +2,7 @@
 layout: post
 title: Hybrid Logical Clock (HLC)
 date: 2017-06-26 12:30 +0300
-comments: False
+comments: true
 ---
 
 The notion of a time plays very important role in distributed systems. But, why do we worry so much about time? Perhaps, it's pretty natural and easy for us humans to reason about everything with some sort of "time" in mind. As a programmer (and human) we are implicitly implying ordering on events, and it's pretty convenient to have a notion of past, future, and present.
